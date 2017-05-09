@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Something amazing happened last night in GA, but no time to rest. #voteyourossoff #flipthesixth #paveitblue #designingdemocracy\n\nWith @TomPerez @ Democratic Party of GA’s 2017 State Dinner! He congratulated us on our big win Tuesday! #VoteChristineMay16 #turn32blue
+\n\nWhat makes a great story?  Our answer to @wesleydchapman @a_humanproject
+Be ready to tell it! Thanks to Wes and his team!\n\nNew Image of Charlie Hunnam in Guy Ritchie's 'King Arthur: Legend of the Sword' #movies #news\n\nEverything Michael does is for family. #PrisonBreak is all-new this Tuesday at 9/8c on @FOXTV.\n\n Call me at 03333896688" />
+</LinearLayout>
