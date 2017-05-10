@@ -26,9 +26,7 @@ Libraries and tools included:
 
 ## Architecture
 
-This project follows ribot's Android architecture guidelines that are based on [MVP (Model View Presenter)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter). Read more about them [here](https://github.com/ribot/android-guidelines/blob/master/architecture_guidelines/android_architecture.md). 
-
-![](https://github.com/ribot/android-guidelines/raw/master/architecture_guidelines/architecture_diagram.png)
+This project is based on [MVP (Model View Presenter)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter).
 
 ### How to implement a new screen following MVP
 
