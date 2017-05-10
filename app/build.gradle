@@ -131,26 +131,12 @@ dependencies {
     testAnnotationProcessor daggerCompiler
     androidTestAnnotationProcessor daggerCompiler
 
-    // Instrumentation test dependencies
-    androidTestCompile jUnit
-    androidTestCompile mockito
-    androidTestCompile "org.mockito:mockito-android:$MOCKITO_VERSION"
-    androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-    }
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
-    androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION"
-    androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION"
+
 
     // Unit tests dependencies
     testCompile jUnit
     testCompile mockito
-    testCompile "org.hamcrest:hamcrest-core:$HAMCREST_VERSION"
-    testCompile "org.hamcrest:hamcrest-library:$HAMCREST_VERSION"
-    testCompile "org.hamcrest:hamcrest-integration:$HAMCREST_VERSION"
+    androidTestCompile "org.mockito:mockito-android:$MOCKITO_VERSION"
     testCompile 'org.robolectric:robolectric:3.1'
 
 
