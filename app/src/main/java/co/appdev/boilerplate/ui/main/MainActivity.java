@@ -25,8 +25,7 @@ import co.appdev.boilerplate.util.DialogFactory;
 
 public class MainActivity extends BaseActivity implements MainMvpView {
 
-    private static final String EXTRA_TRIGGER_SYNC_FLAG =
-            "uk.co.ribot.androidboilerplate.ui.main.MainActivity.EXTRA_TRIGGER_SYNC_FLAG";
+    private static final String EXTRA_TRIGGER_SYNC_FLAG = "co.appdev.boilerplate.ui.main.MainActivity.EXTRA_TRIGGER_SYNC_FLAG";
 
     @Inject
     MainPresenter mMainPresenter;
