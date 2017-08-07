@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android-Components.iml" filepath="$PROJECT_DIR$/Android-Components.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android-Components.iml" filepath="$PROJECT_DIR$/Android-Components.iml" />
       <module fileurl="file://$PROJECT_DIR$/Components.iml" filepath="$PROJECT_DIR$/Components.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fragmentNavigation/fragmentNavigation.iml" filepath="$PROJECT_DIR$/fragmentNavigation/fragmentNavigation.iml" />
       <module fileurl="file://$PROJECT_DIR$/fragmentNavigation/fragmentNavigation.iml" filepath="$PROJECT_DIR$/fragmentNavigation/fragmentNavigation.iml" />
       <module fileurl="file://$PROJECT_DIR$/logincomponent/logincomponent.iml" filepath="$PROJECT_DIR$/logincomponent/logincomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pushnotificatioins/pushnotificatioins.iml" filepath="$PROJECT_DIR$/pushnotificatioins/pushnotificatioins.iml" />
