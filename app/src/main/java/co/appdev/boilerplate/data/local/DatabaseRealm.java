@@ -9,11 +9,12 @@ import javax.inject.Singleton;
 
 import co.appdev.boilerplate.data.model.Users;
 import co.appdev.boilerplate.injection.ApplicationContext;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
 
 /**
  * Created by ahsan on 4/24/17.
@@ -67,18 +68,16 @@ public class DatabaseRealm {
     }
 
     public Observable<Users> setUsers(final List<Users> users) {
-        return Observable.create(new Observable.OnSubscribe<Users>() {
+        return Observable.create(new ObservableOnSubscribe<Users>() {
             @Override
-            public void call(Subscriber<? super Users> subscriber) {
-                if (subscriber.isUnsubscribed()) return;
+            public void subscribe(ObservableEmitter<Users> e) throws Exception {
+                if(e.isDisposed()) return;
                 Realm realm = getRealmInstance();
                 realm.beginTransaction();
                 for (Users user : users) {
                     realm.copyToRealm(user);
                 }
                 realm.commitTransaction();
-                subscriber.onCompleted();
-
             }
         });
     }

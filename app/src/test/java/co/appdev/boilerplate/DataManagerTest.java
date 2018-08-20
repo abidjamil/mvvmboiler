@@ -16,8 +16,9 @@ import co.appdev.boilerplate.data.local.PreferencesHelper;
 import co.appdev.boilerplate.data.model.Users;
 import co.appdev.boilerplate.data.remote.RibotsService;
 import co.appdev.boilerplate.utils.TestDataFactory;
-import rx.Observable;
-import rx.observers.TestSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -54,10 +55,10 @@ public class DataManagerTest {
                 TestDataFactory.makeUser("r2"));
         stubSyncRibotsHelperCalls(users);
 
-        TestSubscriber<Users> result = new TestSubscriber<>();
+        TestObserver<Users> result = new TestObserver<>();
         mDataManager.syncUsers().subscribe(result);
         result.assertNoErrors();
-        result.assertReceivedOnNext(users);
+        result.assertValueSequence(users);
     }
 
     @Test
@@ -79,7 +80,7 @@ public class DataManagerTest {
         when(mMockRibotsService.getUsers())
                 .thenReturn(Observable.<List<Users>>error(new RuntimeException()));
 
-        mDataManager.syncUsers().subscribe(new TestSubscriber<Users>());
+        mDataManager.syncUsers().subscribe(new TestObserver<Users>());
         // Verify right calls to helper methods
         verify(mMockRibotsService).getUsers();
         verify(mMockDatabaseRealmHelper, never()).setUsers(ArgumentMatchers.<Users>anyList());
@@ -90,6 +91,6 @@ public class DataManagerTest {
         when(mMockRibotsService.getUsers())
                 .thenReturn(Observable.just(users));
         when(mMockDatabaseRealmHelper.setUsers(users))
-                .thenReturn(Observable.from(users));
+                .thenReturn(Observable.fromIterable(users));
     }
 }

@@ -9,8 +9,9 @@ import co.appdev.boilerplate.data.local.DatabaseRealm;
 import co.appdev.boilerplate.data.local.PreferencesHelper;
 import co.appdev.boilerplate.data.model.Users;
 import co.appdev.boilerplate.data.remote.RibotsService;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
 @Singleton
 public class DataManager {
@@ -39,9 +40,10 @@ public class DataManager {
 
     public Observable<Users> syncUsers() {
         return mRibotsService.getUsers()
-                .concatMap(new Func1<List<Users>, Observable<Users>>() {
+                .concatMap(new Function<List<Users>, ObservableSource<? extends Users>>() {
                     @Override
-                    public Observable<Users> call(List<Users> users) {
+                    public ObservableSource<? extends Users> apply( List<Users> users)
+                            throws Exception {
                         return mDatabaseRealm.setUsers(users);
                     }
                 });

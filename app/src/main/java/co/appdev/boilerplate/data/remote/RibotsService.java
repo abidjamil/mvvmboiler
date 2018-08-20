@@ -10,10 +10,10 @@ import co.appdev.boilerplate.data.model.Users;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface RibotsService {
 
@@ -43,7 +43,7 @@ public interface RibotsService {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(RibotsService.ENDPOINT)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)
                     .build();
             return retrofit.create(RibotsService.class);

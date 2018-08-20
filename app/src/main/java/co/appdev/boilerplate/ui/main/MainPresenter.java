@@ -9,17 +9,18 @@ import co.appdev.boilerplate.data.model.Users;
 import co.appdev.boilerplate.injection.ConfigPersistent;
 import co.appdev.boilerplate.ui.base.BasePresenter;
 import co.appdev.boilerplate.util.RxUtil;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @ConfigPersistent
 public class MainPresenter extends BasePresenter<MainMvpView> {
 
     private final DataManager mDataManager;
-    private Subscription mSubscription;
+    private Disposable mDisposable;
 
     @Inject
     public MainPresenter(DataManager dataManager) {
@@ -34,20 +35,16 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null) mSubscription.unsubscribe();
+        if (mDisposable != null) mDisposable.dispose();
     }
 
     public void loadUsers() {
         checkViewAttached();
-        RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRibotsService().getUsers()
+        RxUtil.dispose(mDisposable);
+        mDataManager.getRibotsService().getUsers()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Users>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
+                .subscribe(new Observer<List<Users>>() {
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "There was an error loading the ribots.");
@@ -55,7 +52,17 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                     }
 
                     @Override
-                    public void onNext(List<Users> users) {
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<Users> users) {
                         if (users.isEmpty()) {
                             getMvpView().showUsersEmpty();
                         } else {
