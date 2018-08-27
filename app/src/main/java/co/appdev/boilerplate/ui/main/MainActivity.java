@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.appdev.fragmentnavigation.FragNavController;
+import co.appdev.fragnav.FragNavController;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,11 +96,22 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     }
 
-    @Override
+    /*@Override
     public void pushFragment(Fragment fragment, boolean detach) {
         if (fragment != null) {
-            mNavController.pushFragment(fragment, detach);
+            // mNavController.pushFragment(fragment, detach);
+            if(detach){
+                mNavController.clearStack();
+                mNavController.pushFragment(fragment);
+            }else{
+                mNavController.pushFragment(fragment);
+            }
         }
+    }*/
+
+    @Override
+    public void pushFragment(Fragment fragment) {
+        mNavController.pushFragment(fragment);
     }
 
     @Override

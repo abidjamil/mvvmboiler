@@ -5,8 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-
-import com.appdev.fragmentnavigation.FragNavController;
+import co.appdev.fragnav.FragNavController;
 
 import java.util.HashMap;
 import java.util.Map;

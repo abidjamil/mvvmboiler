@@ -50,7 +50,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     public interface FragmentNavigation {
-        public void pushFragment(Fragment fragment, boolean detach);
+        public void pushFragment(Fragment fragment);
         public void replaceFragment(Fragment fragment);
         public void navigationTitle(Fragment fragment);
         public void popCurrentFragment();
