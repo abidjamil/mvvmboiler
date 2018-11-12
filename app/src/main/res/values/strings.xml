@@ -9,4 +9,7 @@
 
     <string name="empty_ribots">There aren\'t any ribots</string>
     <string name="error_loading_ribots">There was a problem loading the ribots</string>
+    <string name="app_service">Sync Service</string>
+    <string name="content_text">Syncing data to server</string>
+
 </resources>

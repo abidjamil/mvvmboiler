@@ -2,6 +2,7 @@ package co.appdev.boilerplate.injection.component;
 
 import co.appdev.boilerplate.injection.PerActivity;
 import co.appdev.boilerplate.injection.module.ActivityModule;
+import co.appdev.boilerplate.ui.base.BaseFragment;
 import co.appdev.boilerplate.ui.main.MainActivity;
 import dagger.Subcomponent;
 
@@ -11,7 +12,7 @@ import dagger.Subcomponent;
 @PerActivity
 @Subcomponent(modules = ActivityModule.class)
 public interface ActivityComponent {
-
+    void inject(BaseFragment baseFragment);
     void inject(MainActivity mainActivity);
 
 }

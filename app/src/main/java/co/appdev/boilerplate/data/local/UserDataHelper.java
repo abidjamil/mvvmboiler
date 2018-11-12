@@ -2,10 +2,9 @@ package co.appdev.boilerplate.data.local;
 
 public interface UserDataHelper {
 
-    public void clearAllPref();
+    void storeIsLogin(boolean is_login);
 
-    public void storeClientId(String client_id);
+    boolean getIsLogin();
 
-    public String getClientId();
-
+    void clearAllPref();
 }

@@ -1,56 +1,35 @@
 package co.appdev.boilerplate.data;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import co.appdev.boilerplate.data.local.DatabaseRealm;
-import co.appdev.boilerplate.data.local.PreferencesHelper;
-import co.appdev.boilerplate.data.model.Users;
-import co.appdev.boilerplate.data.remote.RibotsService;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
+import co.appdev.boilerplate.data.local.SharedPrefHelper;
+import co.appdev.boilerplate.data.remote.ApiService;
 
 @Singleton
 public class DataManager {
 
-    private final RibotsService mRibotsService;
-    private final PreferencesHelper mPreferencesHelper;
-    private final DatabaseRealm mDatabaseRealm;
+    private ApiService mApiService;
+    private DatabaseRealm databaseRealm;
+    private SharedPrefHelper sharedPrefHelper;
 
     @Inject
-    public DataManager(RibotsService ribotsService, PreferencesHelper preferencesHelper,DatabaseRealm databaseRealm) {
-        mRibotsService = ribotsService;
-        mPreferencesHelper = preferencesHelper;
-        this.mDatabaseRealm=databaseRealm;
-
+    public DataManager(ApiService apiService, DatabaseRealm databaseRealm, SharedPrefHelper sharedPrefHelper) {
+        this.mApiService = apiService;
+        this.databaseRealm = databaseRealm;
+        this.sharedPrefHelper = sharedPrefHelper;
     }
 
-    public PreferencesHelper getPreferencesHelper() {
-        return mPreferencesHelper;
+    public ApiService getmApiService() {
+        return mApiService;
     }
 
-    public RibotsService getRibotsService(){return  mRibotsService;}
-
-    public DatabaseRealm getmDatabaseRealm(){
-        return mDatabaseRealm;
+    public DatabaseRealm getDatabaseRealm() {
+        return databaseRealm;
     }
 
-    public Observable<Users> syncUsers() {
-        return mRibotsService.getUsers()
-                .concatMap(new Function<List<Users>, ObservableSource<? extends Users>>() {
-                    @Override
-                    public ObservableSource<? extends Users> apply( List<Users> users)
-                            throws Exception {
-                        return mDatabaseRealm.setUsers(users);
-                    }
-                });
+    public SharedPrefHelper getSharedPrefHelper() {
+        return sharedPrefHelper;
     }
-
-    public Observable<List<Users>> getUsers() {
-        return mDatabaseRealm.getUsers();
-    }
-
 }

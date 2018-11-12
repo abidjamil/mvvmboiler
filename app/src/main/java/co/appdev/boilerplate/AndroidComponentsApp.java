@@ -8,7 +8,7 @@ import co.appdev.boilerplate.injection.component.DaggerApplicationComponent;
 import co.appdev.boilerplate.injection.module.ApplicationModule;
 import timber.log.Timber;
 
-public class BoilerplateApplication extends Application  {
+public class AndroidComponentsApp extends Application  {
 
     ApplicationComponent mApplicationComponent;
 
@@ -22,8 +22,8 @@ public class BoilerplateApplication extends Application  {
         }
     }
 
-    public static BoilerplateApplication get(Context context) {
-        return (BoilerplateApplication) context.getApplicationContext();
+    public static AndroidComponentsApp get(Context context) {
+        return (AndroidComponentsApp) context.getApplicationContext();
     }
 
     public ApplicationComponent getComponent() {

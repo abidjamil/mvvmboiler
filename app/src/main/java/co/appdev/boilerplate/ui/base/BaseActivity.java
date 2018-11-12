@@ -1,22 +1,26 @@
 package co.appdev.boilerplate.ui.base;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import co.appdev.fragnav.FragNavController;
+import com.ncapdevi.fragnav.FragNavController;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import butterknife.ButterKnife;
-import co.appdev.boilerplate.BoilerplateApplication;
+import butterknife.Unbinder;
+import co.appdev.boilerplate.AndroidComponentsApp;
 import co.appdev.boilerplate.injection.component.ActivityComponent;
 import co.appdev.boilerplate.injection.component.ConfigPersistentComponent;
 import co.appdev.boilerplate.injection.component.DaggerConfigPersistentComponent;
 import co.appdev.boilerplate.injection.module.ActivityModule;
+import co.appdev.boilerplate.util.widgets.UMTextView;
 import timber.log.Timber;
 
 /**
@@ -25,30 +29,26 @@ import timber.log.Timber;
  * across configuration changes.
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, BaseFragment.FragmentNavigation, FragNavController.TransactionListener {
-
-
-
     private static final String KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID";
     private static final AtomicLong NEXT_ID = new AtomicLong(0);
-    private static final Map<Long, ConfigPersistentComponent> sComponentsMap = new HashMap<>();
+    private static final LongSparseArray<ConfigPersistentComponent> sComponentsMap = new LongSparseArray<>();
 
     private ActivityComponent mActivityComponent;
     private long mActivityId;
-
-    protected FragNavController mNavController;
-
+    private Unbinder mUnBinder;
+    public Toolbar mToolbar;
+    private int menuResId = -1;
+    public FragNavController mNavController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Create the ActivityComponent and reuses cached ConfigPersistentComponent if this is
-        // being called after a configuration change.
         mActivityId = savedInstanceState != null ?
                 savedInstanceState.getLong(KEY_ACTIVITY_ID) : NEXT_ID.getAndIncrement();
         ConfigPersistentComponent configPersistentComponent;
         if (!sComponentsMap.containsKey(mActivityId)) {
             Timber.i("Creating new ConfigPersistentComponent id=%d", mActivityId);
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(BoilerplateApplication.get(this).getComponent())
+                    .applicationComponent(AndroidComponentsApp.get(this).getComponent())
                     .build();
             sComponentsMap.put(mActivityId, configPersistentComponent);
         } else {
@@ -65,6 +65,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(KEY_ACTIVITY_ID, mActivityId);
+    }
+
+    public UMTextView getActionBarTitle() {
+        return actionBarTitle;
+    }
+
+    public UMTextView actionBarTitle;
+
+    public void setActionBarTitle(String actionBarTitle) {
+        this.actionBarTitle.setText(actionBarTitle);
     }
 
     @Override
@@ -102,4 +112,46 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public abstract void initViews(Bundle savedInstanceState);
     public abstract int getLayoutId();
+
+    public void switchTab(int tabNumber) {
+        if (mNavController != null) {
+            mNavController.switchTab(tabNumber);
+        }
+    }
+
+    public void pushFragment(Fragment fragment) {
+        if (mNavController != null) {
+            mNavController.pushFragment(fragment);
+        }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        if (mNavController != null) {
+            mNavController.replaceFragment(fragment);
+        }
+    }
+
+    public void popFragment() {
+        if (mNavController != null) {
+            mNavController.popFragment();
+        }
+    }
+
+    public void showDialogFragment(DialogFragment fragment) {
+        if (mNavController != null) {
+            mNavController.showDialogFragment(fragment);
+        }
+    }
+
+    public void clearDialogFragment() {
+        if (mNavController != null) {
+            mNavController.clearDialogFragment();
+        }
+    }
+
+    public void popFragment(int count) {
+        if (mNavController != null) {
+            mNavController.popFragments(count);
+        }
+    }
 }
