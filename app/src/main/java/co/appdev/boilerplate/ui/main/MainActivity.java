@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import co.appdev.fragnav.FragNavController;
+import com.ncapdevi.fragnav.FragNavController;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.appdev.boilerplate.R;
-import co.appdev.boilerplate.data.model.Users;
+import co.appdev.boilerplate.data.model.User;
 import co.appdev.boilerplate.ui.base.BaseActivity;
 import co.appdev.boilerplate.util.DialogFactory;
 
@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     @Inject
     MainPresenter mMainPresenter;
     @Inject
-    RibotsAdapter mRibotsAdapter;
+    UsersAdapter mUsersAdapter;
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public void initViews(Bundle savedInstanceState) {
         activityComponent().inject(this);
         ButterKnife.bind(this);
-        mRecyclerView.setAdapter(mRibotsAdapter);
+        mRecyclerView.setAdapter(mUsersAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mMainPresenter.attachView(this);
         mMainPresenter.loadUsers();
@@ -73,9 +73,9 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     /***** MVP View methods implementation *****/
 
     @Override
-    public void showUsers(List<Users> users) {
-        mRibotsAdapter.setRibots(users);
-        mRibotsAdapter.notifyDataSetChanged();
+    public void showUsers(List<User> users) {
+        mUsersAdapter.setRibots(users);
+        mUsersAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -85,8 +85,8 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
     @Override
     public void showUsersEmpty() {
-        mRibotsAdapter.setRibots(Collections.<Users>emptyList());
-        mRibotsAdapter.notifyDataSetChanged();
+        mUsersAdapter.setRibots(Collections.<User>emptyList());
+        mUsersAdapter.notifyDataSetChanged();
         Toast.makeText(this, R.string.empty_ribots, Toast.LENGTH_LONG).show();
     }
 
@@ -129,11 +129,6 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     }
 
     @Override
-    public void popCurrentFragment() {
-        mNavController.popFragment();
-    }
-
-    @Override
     public void onTabTransaction(Fragment fragment, int index) {
 
     }
@@ -142,4 +137,5 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
 
     }
+
 }

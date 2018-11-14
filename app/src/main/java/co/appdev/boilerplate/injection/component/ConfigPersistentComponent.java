@@ -15,7 +15,5 @@ import dagger.Component;
 @ConfigPersistent
 @Component(dependencies = ApplicationComponent.class)
 public interface ConfigPersistentComponent {
-
     ActivityComponent activityComponent(ActivityModule activityModule);
-
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
-import co.appdev.boilerplate.data.remote.RibotsService;
 import co.appdev.boilerplate.injection.ApplicationContext;
 import dagger.Module;
 import dagger.Provides;
@@ -30,12 +29,6 @@ public class ApplicationModule {
     @ApplicationContext
     Context provideContext() {
         return mApplication;
-    }
-
-    @Provides
-    @Singleton
-    RibotsService provideRibotsService() {
-        return RibotsService.Creator.newRibotsService();
     }
 
 }

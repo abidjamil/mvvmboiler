@@ -1,25 +1,13 @@
 package co.appdev.boilerplate.data.local;
 
 import android.content.Context;
-import android.os.HandlerThread;
-
-import java.util.List;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import co.appdev.boilerplate.data.model.Users;
 import co.appdev.boilerplate.injection.ApplicationContext;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmObject;
-import io.reactivex.Observable;
 
 /**
  * Created by ahsan on 4/24/17.
