@@ -1,32 +1,23 @@
 package co.appdev.boilerplate.services;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
+
+import javax.inject.Inject;
+
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.PowerManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-
-import javax.inject.Inject;
-
-import co.appdev.boilerplate.AndroidComponentsApp;
+import android.os.*;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import co.appdev.boilerplate.MyApplication;
 import co.appdev.boilerplate.R;
 import co.appdev.boilerplate.data.DataManager;
-import co.appdev.boilerplate.ui.splash.SplashActivity;
 import co.appdev.boilerplate.util.Constants;
+import co.appdev.boilerplate.ui.PostActivity;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class SyncService extends Service {
@@ -54,8 +45,8 @@ public class SyncService extends Service {
     public void onCreate() {
         super.onCreate();
         compositeDisposable = new CompositeDisposable();
-        AndroidComponentsApp.get(this).getComponent().inject(this);
-        mHandlerThread = new HandlerThread(Constants.THREAD_NAME);
+        MyApplication.Companion.get(this).getComponent().inject(this);
+        mHandlerThread = new HandlerThread(Constants.INSTANCE.getTHREAD_NAME());
         mHandlerThread.start();
         mHandler = new Handler(mHandlerThread.getLooper());
     }
@@ -64,17 +55,17 @@ public class SyncService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         assert powerManager != null;
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":" + Constants.WAKE_LOCK_TAG);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":" + Constants.INSTANCE.getWAKE_LOCK_TAG());
         acquireWakeLock();
 
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm != null) {
-            wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, Constants.WAKE_LOCK_WIFI);
+            wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, Constants.INSTANCE.getWAKE_LOCK_WIFI());
             wifiLock.setReferenceCounted(true);
         }
         acquireWifiLock();
         if (intent != null && intent.getAction() != null) {
-            if (intent.getAction().contains(Constants.START)) {
+            if (intent.getAction().contains(Constants.INSTANCE.getSTART())) {
                 handler = new Handler(Looper.getMainLooper());
                 runnable = new Runnable() {
                     @Override
@@ -85,7 +76,7 @@ public class SyncService extends Service {
                 };
                 handler.post(runnable);
                // mHandler.postDelayed(call method here, 2000);
-            } else if (intent.getAction().contains(Constants.STOP)) {
+            } else if (intent.getAction().contains(Constants.INSTANCE.getSTOP())) {
                 handler.removeCallbacks(runnable);
                 stopForeground(true);
                 stopSelf();
@@ -138,7 +129,7 @@ public class SyncService extends Service {
 
     private Notification updateNotification() {
 
-        Intent notificationIntent = new Intent(this, SplashActivity.class);
+        Intent notificationIntent = new Intent(this, PostActivity.class);
         notificationIntent.putExtra("finish", true);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
@@ -160,22 +151,22 @@ public class SyncService extends Service {
             notificationManager.createNotificationChannel(notificationChannel);
 
             return new Notification.Builder(this, channelId)
-                    .setContentTitle(getText(R.string.app_service))
+                    .setContentTitle(getText(R.string.app_name))
                     .setTicker(getText(R.string.app_name))
                     .setContentText(getText(R.string.content_text))
-                    .setSmallIcon(R.mipmap.ic_sync_black_24dp)
-                    .setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sync_black_24dp), 128, 128, false))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), 128, 128, false))
                     .setContentIntent(pendingIntent)
                     .setChannelId(channelId)
                     .setOngoing(true).build();
 
         } else {
             return new NotificationCompat.Builder(this)
-                    .setContentTitle(getText(R.string.app_service))
+                    .setContentTitle(getText(R.string.app_name))
                     .setTicker(getText(R.string.app_name))
                     .setContentText(getText(R.string.content_text))
-                    .setSmallIcon(R.mipmap.ic_sync_black_24dp)
-                    .setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sync_black_24dp), 128, 128, false))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), 128, 128, false))
                     .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
         }

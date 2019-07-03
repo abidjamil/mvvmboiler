@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="UMTextView">
-        <attr name="viewtype" format="string" />
+    <declare-styleable name="AATextView">
+        <attr name="viewtype" format="enum">
+            <enum name="bold" value="0" />//
+            <enum name="it" value="1" />//
+            <enum name="light" value="2" />//
+            <enum name="regular" value="3" />//
+            <enum name="semiBold" value="4" />//
+        </attr>
     </declare-styleable>
 </resources>

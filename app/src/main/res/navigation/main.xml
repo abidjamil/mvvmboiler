@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main"
+            app:startDestination="@id/postListFragment">
+
+    <fragment
+            android:id="@+id/postListFragment"
+            android:name="co.appdev.boilerplate.ui.list.PostListFragment"
+            android:label="PostListFragment"
+            tools:layout="@layout/post_list_fragment">
+        <action
+                android:id="@+id/action_mainFragment_to_postDetailFragment"
+                app:destination="@id/postDetailFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/postDetailFragment"
+            tools:layout="@layout/post_detail_fragment"
+            android:name="co.appdev.boilerplate.ui.detail.PostDetailFragment"
+            android:label="PostDetailFragment">
+
+        <argument
+                android:name="userPost"
+                app:argType="co.appdev.boilerplate.data.model.UserPost"/>
+    </fragment>
+</navigation>
