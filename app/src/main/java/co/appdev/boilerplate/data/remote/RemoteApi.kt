@@ -10,6 +10,6 @@ interface RemoteApi {
         const val BASE_URL = "https://jsonplaceholder.typicode.com"
     }
 
-    @GET("https://jsonplaceholder.typicode.com/posts")
+    @GET("/posts")
     fun getPosts(): Observable<List<UserPost>>
 }
